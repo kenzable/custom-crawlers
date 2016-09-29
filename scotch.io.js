@@ -4,8 +4,10 @@ var request = require('request'),
     csvWriter = require('csv-write-stream');
 
 var writer = csvWriter();
-writer.pipe(fs.createWriteStream('out.csv'));
+//EDIT THE WRITE STREAM OUTPUT TARGET
+writer.pipe(fs.createWriteStream('scotch-out.csv'));
 
+//EDIT THE BASE URL
 var link = 'https://scotch.io/tutorials',
     counter = 1;
 
