@@ -1,0 +1,13 @@
+{
+  "name": "web-crawlers",
+  "version": "1.0.0",
+  "description": "Web Crawlers",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "csv-write-stream": "^2.0.0",
+    "request": "^2.75.0"
+  }
+}
