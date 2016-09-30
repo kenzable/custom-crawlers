@@ -27,44 +27,36 @@ function initialHtml(html) {
   linkList = [].slice.call(linkList);
   linkList = linkList.forEach(function(link){
     var href = $(link).attr('href');
-    makeHttp(href);
+    makeHttp('http://alistapart.com' + href);
   });
+  link = 'http://alistapart.com/articles/P' + counter;
+  initialHttp(link);
 }
 
 function makeHttp(link){
   request(link, function(error, response, html){
     if (!error && response.statusCode === 200) {
-      console.log('we are here');
-      counter += 10;
-      processHtml(html);
+      processHtml(html, link);
     }
     else console.error(error);
   });
-  console.log(link, counter);
 }
 
-function processHtml(){
-  var cards = $('div.card');
-  cards = [].slice.call(cards);
-  cards.forEach(function(card){
-    var text = $(card).find('.text');
-    var title = $(text[0]).text().trim();
-    var author = $(text[1]).text().trim();
-    var tags = $(card).find('.tags').text();
-    tags = tags.trim();
-    tags = tags.replace(/\n/g, ',');
-    var href = $(card).find('a.tile').attr('href');
-
-    var writeObj = {title: title, author: author, tags: tags, link: href};
-    console.log('write obj', writeObj);
-
-    writer.write(writeObj);
+function processHtml(html, link){
+  var $ = cheerio.load(html);
+  var title = $($('.entry-title')[0]).text();
+  var author = $($('.author span')[0]).text();
+  var tags = $('a span[itemprop="about"]');
+  var finalTags = [];
+  tags = [].slice.call(tags);
+  tags.forEach(function(tag){
+    finalTags.push($(tag).text());
   });
-  link = 'https://scotch.io/tutorials/P' + counter;
-  makeHttp(link);
+  tags = finalTags.join(',');
+  var writeObj = {title: title, author: author, tags: tags, link: link, source: 'A List Apart'};
+  console.log('writing', link);
+
+  writer.write(writeObj);
 }
 
-
-
-
-makeHttp(link);
+initialHttp(link);
