@@ -35,7 +35,7 @@ function processHtml(html) {
     tags = tags.replace(/\n/g, ',');
     var href = $(card).find('a.tile').attr('href');
 
-    var writeObj = {title: title, author: author, tags: tags, link: href};
+    var writeObj = {title: title, author: author, tags: tags, link: href, source: 'Scotch'};
     console.log('write obj', writeObj);
 
     writer.write(writeObj);
